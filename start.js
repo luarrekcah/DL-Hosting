@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const pm2 = require('pm2');
 
 function runScriptsInProjectsFolder(folderPath) {
   fs.readdir(folderPath, (err, files) => {
@@ -17,14 +17,15 @@ function runScriptsInProjectsFolder(folderPath) {
       } else if (file === 'index.js') {
         console.log(`Executando o script ${filePath}`);
 
-        const childProcess = spawn('node', [filePath]);
-
-        childProcess.stdout.on('data', data => {
-          console.log(data.toString());
-        });
-
-        childProcess.stderr.on('data', data => {
-          console.error(data.toString());
+        pm2.start({
+          script: filePath,
+          name: file.replace('.js', '') 
+        }, (err, proc) => {
+          if (err) {
+            console.error(`Erro ao iniciar o script ${filePath}: ${err}`);
+          } else {
+            console.log(`Script ${filePath} iniciado com sucesso`);
+          }
         });
       }
     });
@@ -33,4 +34,11 @@ function runScriptsInProjectsFolder(folderPath) {
 
 const projectsFolderPath = './projects';
 
-runScriptsInProjectsFolder(projectsFolderPath);
+pm2.connect((err) => {
+  if (err) {
+    console.error('Erro ao conectar ao PM2:', err);
+    process.exit(1);
+  }
+
+  runScriptsInProjectsFolder(projectsFolderPath);
+});
