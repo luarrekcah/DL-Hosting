@@ -4,7 +4,9 @@ const fs = require("fs");
 
 require("dotenv").config();
 
-const bot = new TelegramBot(process.env.TOKEN_RV, { polling: true });
+const bot = new TelegramBot(process.env.TOKEN_RV, {
+  polling: true,
+});
 
 function readDb() {
   try {
@@ -52,7 +54,9 @@ function sendGame() {
 
   mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 2 MINUTOS\n🎯 PLATAFORMA: ${config.url}`;
 
-  bot.sendMessage(config.channelId, mensagem);
+  bot.sendMessage(config.channelId, mensagem, {
+    disable_web_page_preview: true,
+  });
 
   const db = readDb();
   if (db) {
@@ -64,9 +68,10 @@ function sendGame() {
 function sendWarn() {
   bot.sendMessage(
     config.channelId,
-    "⚠️🚨 ATENÇÃO 🚨⚠️\n\n🚫❌ TEM MUITAS PESSOAS QUE ESTÃO TOMANDO 🟥 RED 🟥 PORQUE ESTÃO JOGANDO EM OUTRA PLATAFORMA! ❌🚫\n\n‼️📢 !! NOSSO SINAL SÓ FUNCIONA NA PLATAFORMA ABAIXO !! 📢‼️\n\n💻 Cadastre-se aqui: " +
+    "⚠️🚨 ATENÇÃO 🚨⚠️\n\n🚫❌ TEM MUITAS PESSOAS QUE ESTÃO TOMANDO 🟥 RED 🟥 PORQUE ESTÃO JOGANDO EM OUTRA PLATAFORMA! ❌🚫\n\n‼️📢 !! NOSSO SINAL SÓ FUNCIONA NA PLATAFORMA ABAIXO !! 📢‼️\n\n💻 Cadastre-se aqui: <a href='" +
       config.url +
-      "💻"
+      "'>CADASTRAR</a>💻",
+    { parse_mode: "HTML", disable_web_page_preview: true }
   );
 
   const db = readDb();
@@ -76,6 +81,13 @@ function sendWarn() {
   }
 }
 
+function sendWarnGame() {
+  bot.sendMessage(
+    config.channelId,
+    "O último padrão mines passou da validade. Aguarde o próximo padrão!"
+  );
+}
+
 function verifyTime() {
   const db = readDb();
   if (db && db.sendTimestamp) {
@@ -83,7 +95,10 @@ function verifyTime() {
     const timeDiff = currentTime - db.sendTimestamp;
 
     if (timeDiff >= 2 * 60 * 1000) {
-      sendGame();
+      sendWarnGame();
+      setTimeout(() => {
+        sendGame();
+      }, 1000 * 60);
     }
   }
 
@@ -97,6 +112,5 @@ function verifyTime() {
   }
 }
 
-
-verifyTime()
-setInterval(verifyTime, 60 * 1000);
+verifyTime();
+setInterval(verifyTime, 60 * 1000 * 2);
