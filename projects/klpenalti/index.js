@@ -1,9 +1,3 @@
-/**
- * @author script -> @luarrekcah
- * Github github.com/luarrekcah
- * Site devluar.com
- */
-
 const TelegramBot = require("node-telegram-bot-api");
 const config = require("./config.json");
 const fs = require("fs");
@@ -143,9 +137,6 @@ function sendGame() {
     writeDb(db);
   }
 }
-
-
-sendGame();
 
 function sendWarn() {
   bot.sendMessage(
