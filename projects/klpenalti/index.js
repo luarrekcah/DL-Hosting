@@ -28,60 +28,31 @@ function writeDb(data) {
 
 function getRandomFlag() {
   const flags = [
-    '🇺🇸', // Estados Unidos
-    '🇨🇳', // China
-    '🇧🇷', // Brasil
-    '🇮🇳', // Índia
-    '🇷🇺', // Rússia
-    '🇯🇵', // Japão
-    '🇩🇪', // Alemanha
-    '🇫🇷', // França
-    '🇬🇧', // Reino Unido
-    '🇮🇹', // Itália
-    '🇨🇦', // Canadá
-    '🇦🇺', // Austrália
-    '🇪🇸', // Espanha
-    '🇲🇽', // México
-    '🇰🇷', // Coreia do Sul
-    '🇮🇩', // Indonésia
-    '🇦🇷', // Argentina
-    '🇿🇦', // África do Sul
-    '🇸🇦', // Arábia Saudita
-    '🇪🇬', // Egito
-    '🇳🇬', // Nigéria
-    '🇨🇭', // Suíça
-    '🇸🇪', // Suécia
-    '🇳🇱', // Holanda
-    '🇹🇷', // Turquia
-    '🇬🇷', // Grécia
-    '🇮🇩', // Indonésia
-    '🇵🇹', // Portugal
-    '🇨🇿', // República Tcheca
-    '🇩🇰', // Dinamarca
-    '🇵🇱', // Polônia
-    '🇳🇴', // Noruega
-    '🇨🇭', // Suíça
-    '🇦🇹', // Áustria
-    '🇮🇪', // Irlanda
-    '🇧🇪', // Bélgica
-    '🇳🇿', // Nova Zelândia
-    '🇸🇬', // Cingapura
-    '🇲🇾', // Malásia
-    '🇫🇮', // Finlândia
-    '🇵🇪', // Peru
-    '🇨🇴', // Colômbia
-    '🇻🇪', // Venezuela
-    '🇨🇱', // Chile
-    '🇦🇪', // Emirados Árabes Unidos
-    '🇮🇶', // Iraque
-    '🇦🇷', // Argentina
-    '🇿🇦', // África do Sul
-    '🇨🇷', // Costa Rica
-    '🇪🇪', // Estônia
-    '🇮🇸', // Islândia
-    '🇧🇪', // Bélgica
-    '🇺🇾', // Uruguai
-  ];  
+    "🇦🇹", // Áustria
+    "🇦🇿", // Azerbaijão
+    "🇧🇪", // Bélgica
+    "🇭🇷", // Croácia
+    "🇨🇿", // República Tcheca
+    "🇩🇰", // Dinamarca
+    "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra", // Inglaterra
+    "🇫🇮", // Finlândia
+    "🇫🇷", // França
+    "🇩🇪", // Alemanha
+    "🇮🇹", // Itália
+    "🇮🇪", // Irlanda
+    "🇳🇱", // Países Baixos
+    "🇵🇱", // Polônia
+    "🇵🇹", // Portugal
+    "🇲🇪", // Montenegro
+    "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escócia", // Escócia
+    "🇷🇸", // Sérvia
+    "🇪🇸", // Espanha
+    "🇸🇪", // Suécia
+    "🇨🇭", // Suíça
+    "🇹🇷", // Turquia
+    "🇺🇦", // Ucrânia
+    "🇺🇿", // Uzbequistão
+  ];
   const randomIndex = Math.floor(Math.random() * flags.length);
   return flags[randomIndex];
 }
@@ -97,7 +68,9 @@ function sendGame() {
   mensagem += `🔥Buscando: x${Math.pow(2, qntEntradas - 1) * 1.92}\n`;
 
   for (let entrada = 1; entrada <= qntEntradas; entrada++) {
-    mensagem += `\n🔥 ${entrada}º Entrada: x${Math.pow(2, entrada - 1) * 1.92}\n\n`;
+    mensagem += `\n🔥 ${entrada}º Entrada: x${
+      Math.pow(2, entrada - 1) * 1.92
+    }\n\n`;
 
     let matriz = [
       [bloqueadoEmoji, bloqueadoEmoji, bloqueadoEmoji],
@@ -118,7 +91,7 @@ function sendGame() {
     for (let i = 0; i < matriz.length; i++) {
       for (let j = 0; j < matriz[i].length; j++) {
         mensagem += matriz[i][j];
-        mensagem += " ";
+        mensagem += "";
       }
       mensagem += "\n";
     }
