@@ -60,7 +60,7 @@ function sendGame() {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `\n\n${minas}\nTENTATIVAS🎯: 4\nVALIDADE⏰: 2 MIN\nPLATAFORMA🎰: ${config.url}\n\n\n⚠️NOSSO ROBÔ SÓ É PROJETADO PARA CONTAS CRIADAS NA PLATAFORMA ACIMA⚠️`;
+  mensagem += `\n\n${minas}\nTENTATIVAS🎯: 4\nVALIDADE⏰: 2 MIN\nPLATAFORMA🎰: ${config.url}\n\n\n⚠️NOSSO ROBÔ SÓ É PROJETADO PARA FALHAS DA PLATAFORMA ACIMA⚠️`;
 
   bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
