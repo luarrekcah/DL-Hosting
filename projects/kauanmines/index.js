@@ -34,7 +34,7 @@ function sendGame() {
   }
 
   let count = 0;
-  while (count < 4) {
+  while (count < 3) {
     const row = Math.floor(Math.random() * 5);
     const col = Math.floor(Math.random() * 5);
 
@@ -44,7 +44,7 @@ function sendGame() {
     }
   }
 
-  let mensagem = "O sistema gerou os seguintes sinais:\nAposte com 4 💣.\n\n";
+  let mensagem = "O sistema gerou os seguintes sinais:\nAposte com 3 💣.\n\n";
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
