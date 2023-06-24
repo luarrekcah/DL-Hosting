@@ -63,7 +63,7 @@ function sendGame() {
   const bloqueadoEmoji = "🚫";
   const qntEntradas = 3;
 
-  let mensagem = "🔵🔵 Entrada Finalizada 🔵🔵\n\n";
+  let mensagem = "🔵🔵 Entrada Confirmada 🔵🔵\n\n";
   mensagem += `🎯Entrada: ${getRandomFlag()}\n`;
   mensagem += `🔥Buscando: x${Math.pow(2, qntEntradas - 1) * 1.92}\n`;
 
