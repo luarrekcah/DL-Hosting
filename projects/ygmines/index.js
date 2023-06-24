@@ -35,8 +35,16 @@ function sendGame() {
     matriz.push([empty, empty, empty, empty, empty]);
   }
 
+  let minas = "MINAS💣: 3";
+  let totalMines = 3;
+
+  if (Math.random() <= 0.25) {
+    minas = "MINAS💣: 4";
+    totalMines = 4;
+  }
+
   let count = 0;
-  while (count < 4) {
+  while (count < totalMines) {
     const row = Math.floor(Math.random() * 5);
     const col = Math.floor(Math.random() * 5);
 
@@ -50,13 +58,6 @@ function sendGame() {
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
-  }
-
-  let minas;
-  if (Math.random() <= 0.25) {
-    minas = "MINAS💣: 4";
-  } else {
-    minas = "MINAS💣: 3";
   }
 
   mensagem += `\n\n${minas}\nTENTATIVAS🎯: 4\nVALIDADE⏰: 2 MIN\nPLATAFORMA🎰: ${config.url}\n\n\n⚠️NOSSO ROBÔ SÓ É PROJETADO PARA CONTAS CRIADAS NA PLATAFORMA ACIMA⚠️`;
