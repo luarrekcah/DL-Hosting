@@ -27,8 +27,8 @@ function writeDb(data) {
 }
 
 function sendGame() {
-  const diamond = "💣";
-  const empty = "⬛️";
+  const diamond = "💎";
+  const empty = "⚫";
 
   const matriz = [];
   for (let i = 0; i < 5; i++) {
@@ -54,13 +54,13 @@ function sendGame() {
     }
   }
 
-  let mensagem = "✅SEQUÊNCIA GERADA PELO ROBÔ\n\n";
+  let mensagem = `O sistema gerou os seguintes sinais:\nAposte com ${totalMines}💣.\n`;
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `\n\n${minas}\nTENTATIVAS🎯: 4\nVALIDADE⏰: 2 MIN\nPLATAFORMA🎰: ${config.url}\n\n\n⚠️NOSSO ROBÔ SÓ É PROJETADO PARA FALHAS DA PLATAFORMA ACIMA⚠️`;
+  mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 2 MINUTOS\n🎯 PLATAFORMA: ${config.url}`;
 
   bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
@@ -92,7 +92,7 @@ function sendWarn() {
 function sendWarnGame() {
   bot.sendMessage(
     config.channelId,
-    "✅SINAL FINALIZADO\nAGUARDE O PRÓXIMO SINAL"
+    "O último padrão mines passou da validade. Aguarde o próximo padrão!"
   );
 }
 
