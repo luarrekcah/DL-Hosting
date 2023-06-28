@@ -54,7 +54,7 @@ function sendGame() {
     }
   }
 
-  let mensagem = `O sistema gerou os seguintes sinais:\nAposte com ${totalMines}💣.\n`;
+  let mensagem = `O sistema gerou os seguintes sinais:\nAposte com ${totalMines}💣.\n\n`;
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
