@@ -38,8 +38,9 @@ async function sendGame() {
   let count = 0;
 
   let totalMines = Math.floor(Math.random() * 4) + 2;
+  let totalDiamonds = Math.floor(Math.random() * 6) + 4;
 
-  while (count < totalMines) {
+  while (count < totalDiamonds) {
     const row = Math.floor(Math.random() * 5);
     const col = Math.floor(Math.random() * 5);
 
