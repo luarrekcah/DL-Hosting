@@ -36,7 +36,14 @@ function sendGame() {
   }
 
   let count = 0;
-  while (count < 4) {
+
+  let totalMines = 4;
+
+  if (Math.random() <= 0.25) {
+    totalMines = 5;
+  }
+
+  while (count < totalMines) {
     const row = Math.floor(Math.random() * 5);
     const col = Math.floor(Math.random() * 5);
 
@@ -57,7 +64,7 @@ function sendGame() {
 
   const time = `${hours}:${minutes}`;
 
-  let mensagem = `🔵🔵 Entrada Finalizada 🔵🔵\n\n💣 Selecione com 3 minas\n\n⏱ Valido até as ${time}\n🎲 Tentativas: 3\n\n🎯Entrada:\n\n`;
+  let mensagem = `🟢🟢 Entrada Confirmada 🟢🟢\n\n💣 Selecione com ${totalMines} minas\n\n⏱ Valido até as ${time}\n🎲 Tentativas: 3\n\n🎯Entrada:\n\n`;
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
@@ -107,7 +114,10 @@ function verifyTime() {
     const timeDiff = currentTime - db.sendTimestamp;
 
     if (timeDiff >= 3 * 60 * 1000) {
-      sendWarnGame();
+      bot.sendMessage(config.channelId, `🔵🔵 Entrada Finalizada 🔵🔵`);
+      setTimeout(() => {
+        sendWarnGame();
+      }, 1000 * 10);
       setTimeout(() => {
         sendGame();
       }, 1000 * 60);
