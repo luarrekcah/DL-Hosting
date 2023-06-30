@@ -37,11 +37,7 @@ function sendGame() {
 
   let count = 0;
 
-  let totalMines = 4;
-
-  if (Math.random() <= 0.25) {
-    totalMines = 5;
-  }
+  let totalMines = Math.floor(Math.random() * 4) + 2;
 
   while (count < totalMines) {
     const row = Math.floor(Math.random() * 5);
