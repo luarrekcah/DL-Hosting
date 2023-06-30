@@ -116,11 +116,16 @@ function verifyTime() {
     const timeDiff = currentTime - db.sendTimestamp;
 
     if (timeDiff >= 3 * 60 * 1000) {
-      bot.editMessageText(mensagemEditada, {
-        chat_id: config.channelId,
-        message_id: sentMessage.message_id,
-        disable_web_page_preview: true,
-      });
+      try {
+        bot.editMessageText(mensagemEditada, {
+          chat_id: config.channelId,
+          message_id: sentMessage.message_id,
+          disable_web_page_preview: true,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      
       setTimeout(() => {
         sendWarnGame();
       }, 1000 * 10);
