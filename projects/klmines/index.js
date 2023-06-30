@@ -26,7 +26,7 @@ function writeDb(data) {
   }
 }
 
-function sendGame() {
+async function sendGame() {
   const diamond = "💎";
   const empty = "⬛️";
 
@@ -62,13 +62,18 @@ function sendGame() {
 
   let mensagem = `🟢🟢 Entrada Confirmada 🟢🟢\n\n💣 Selecione com ${totalMines} minas\n\n⏱ Valido até as ${time}\n🎲 Tentativas: 3\n\n🎯Entrada:\n\n`;
 
+  let msgEditada = `🔵🔵 Entrada Finalizada 🔵🔵\n\n💣 Selecione com ${totalMines} minas\n\n⏱ Valido até as ${time}\n🎲 Tentativas: 3\n\n🎯Entrada:\n\n`;
+
+
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
+    msgEditada += matriz[i].join(" ") + "\n";
   }
 
   mensagem += `\n📲 OS SINAIS SÓ FUCIONA NA PLATAFORMA ABAIXO👇🏻\n\n⚠️PLATAFORMA: ${config.url}`;
+  msgEditada += `\n📲 OS SINAIS SÓ FUCIONA NA PLATAFORMA ABAIXO👇🏻\n\n⚠️PLATAFORMA: ${config.url}`;
 
-  bot.sendMessage(config.channelId, mensagem, {
+  const sentMessage = await bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
   });
 
@@ -110,7 +115,11 @@ function verifyTime() {
     const timeDiff = currentTime - db.sendTimestamp;
 
     if (timeDiff >= 3 * 60 * 1000) {
-      bot.sendMessage(config.channelId, `🔵🔵 Entrada Finalizada 🔵🔵`);
+      bot.editMessageText(mensagemEditada, {
+        chat_id: config.channelId,
+        message_id: sentMessage.message_id,
+        disable_web_page_preview: true,
+      });
       setTimeout(() => {
         sendWarnGame();
       }, 1000 * 10);
