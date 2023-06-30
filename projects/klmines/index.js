@@ -78,6 +78,18 @@ async function sendGame() {
     disable_web_page_preview: true,
   });
 
+  setTimeout(() => {
+    try {
+      bot.editMessageText(msgEditada, {
+        chat_id: config.channelId,
+        message_id: sentMessage.message_id,
+        disable_web_page_preview: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, 3 * 60 * 1000)
+
   const db = readDb();
   if (db) {
     db.sendTimestamp = Date.now();
@@ -116,16 +128,6 @@ function verifyTime() {
     const timeDiff = currentTime - db.sendTimestamp;
 
     if (timeDiff >= 3 * 60 * 1000) {
-      try {
-        bot.editMessageText(msgEditada, {
-          chat_id: config.channelId,
-          message_id: sentMessage.message_id,
-          disable_web_page_preview: true,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      
       setTimeout(() => {
         sendWarnGame();
       }, 1000 * 10);
