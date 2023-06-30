@@ -38,7 +38,7 @@ async function sendGame() {
   let count = 0;
 
   let totalMines = Math.floor(Math.random() * 4) + 2;
-  let totalDiamonds = Math.floor(Math.random() * 6) + 4;
+  let totalDiamonds = Math.floor(Math.random() * 3) + 4;
 
   while (count < totalDiamonds) {
     const row = Math.floor(Math.random() * 5);
@@ -117,7 +117,7 @@ function verifyTime() {
 
     if (timeDiff >= 3 * 60 * 1000) {
       try {
-        bot.editMessageText(mensagemEditada, {
+        bot.editMessageText(msgEditada, {
           chat_id: config.channelId,
           message_id: sentMessage.message_id,
           disable_web_page_preview: true,
