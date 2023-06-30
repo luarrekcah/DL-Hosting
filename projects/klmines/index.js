@@ -46,7 +46,16 @@ function sendGame() {
     }
   }
 
-  const time = '18:05'
+  const brasiliaTime = new Date().toLocaleString("en-US", {
+    timeZone: "America/Sao_Paulo",
+  });
+  const currentTime = new Date(brasiliaTime);
+  currentTime.setMinutes(currentTime.getMinutes() + 3);
+
+  const hours = currentTime.getHours().toString().padStart(2, "0");
+  const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+
+  const time = `${hours}:${minutes}`;
 
   let mensagem = `🔵🔵 Entrada Finalizada 🔵🔵\n\n💣 Selecione com 3 minas\n\n⏱ Valido até as ${time}\n🎲 Tentativas: 3\n\n🎯Entrada:\n\n`;
 
@@ -87,7 +96,7 @@ function sendWarnGame() {
   bot.sendMessage(
     config.channelId,
     `⚠️ ATENÇÃO, possível entrada\n⌚️ Aguarde a confirmação\n🎰 CADASTRE-SE 👉🏻 ${config.url}`,
-    { disable_web_page_preview: true}
+    { disable_web_page_preview: true }
   );
 }
 
@@ -97,7 +106,7 @@ function verifyTime() {
     const currentTime = Date.now();
     const timeDiff = currentTime - db.sendTimestamp;
 
-    if (timeDiff >= 2 * 60 * 1000) {
+    if (timeDiff >= 3 * 60 * 1000) {
       sendWarnGame();
       setTimeout(() => {
         sendGame();
