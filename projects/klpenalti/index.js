@@ -57,18 +57,26 @@ function getRandomFlag() {
   return flags[randomIndex];
 }
 
-function sendGame() {
+async function sendGame() {
   const goleiroEmoji = "     "; // Espaço do goleiro ou substituir por um emoji simbôlico
   const bolaEmoji = "⚽️";
   const bloqueadoEmoji = "🚫";
   const qntEntradas = 3;
 
+  let msgEditada = "🔵🔵 Entrada Finalizada 🔵🔵\n\n";
   let mensagem = "🟢🟢 Entrada confirmada 🟢🟢\n\n";
   mensagem += `🎯Entrada: ${getRandomFlag()}\n`;
   mensagem += `🔥Buscando: x${Math.pow(2, qntEntradas - 1) * 1.92}\n`;
 
+  msgEditada += `🎯Entrada: ${getRandomFlag()}\n`;
+  msgEditada += `🔥Buscando: x${Math.pow(2, qntEntradas - 1) * 1.92}\n`;
+
   for (let entrada = 1; entrada <= qntEntradas; entrada++) {
     mensagem += `\n🔥 ${entrada}º Entrada: x${
+      Math.pow(2, entrada - 1) * 1.92
+    }\n\n`;
+
+    msgEditada += `\n🔥 ${entrada}º Entrada: x${
       Math.pow(2, entrada - 1) * 1.92
     }\n\n`;
 
@@ -92,17 +100,36 @@ function sendGame() {
       for (let j = 0; j < matriz[i].length; j++) {
         mensagem += matriz[i][j];
         mensagem += "";
+
+        msgEditada += matriz[i][j];
+        msgEditada += "";
       }
       mensagem += "\n";
+      msgEditada += "\n";
     }
   }
 
   mensagem += `\n🎰 PLATAFORMA: ${config.url}\n\n`;
   mensagem += `ENTRE AQUI 👉🏻 ${config.url}`;
 
-  bot.sendMessage(config.channelId, mensagem, {
+  msgEditada += `\n🎰 PLATAFORMA: ${config.url}\n\n`;
+  msgEditada += `ENTRE AQUI 👉🏻 ${config.url}`;
+
+  const sentMessage = await bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
   });
+
+  setTimeout(() => {
+    try {
+      bot.editMessageText(msgEditada, {
+        chat_id: config.channelId,
+        message_id: sentMessage.message_id,
+        disable_web_page_preview: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, 2 * 60 * 1000)
 
   const db = readDb();
   if (db) {
