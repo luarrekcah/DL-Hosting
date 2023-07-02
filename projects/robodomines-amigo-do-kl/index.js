@@ -120,6 +120,7 @@ function verifyTime() {
   }
 }
 
+/*
 verifyTime();
-setInterval(verifyTime, 60 * 1000 * 2);
+setInterval(verifyTime, 60 * 1000 * 2);*/
 
