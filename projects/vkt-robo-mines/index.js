@@ -60,7 +60,7 @@ function sendGame() {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 2 MINUTOS\n🎯 PLATAFORMA: ${config.url}`;
+  mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 10 MINUTOS\n🎯 PLATAFORMA: ${config.url}`;
 
   bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
@@ -102,11 +102,11 @@ function verifyTime() {
     const currentTime = Date.now();
     const timeDiff = currentTime - db.sendTimestamp;
 
-    if (timeDiff >= 2 * 60 * 1000) {
+    if (timeDiff >= 10 * 60 * 1000) {
       sendWarnGame();
       setTimeout(() => {
         sendGame();
-      }, 8 * 60 * 1000);
+      }, 10 * 1000);
     }
   }
 
