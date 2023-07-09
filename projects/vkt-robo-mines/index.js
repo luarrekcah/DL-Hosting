@@ -106,7 +106,7 @@ function verifyTime() {
       sendWarnGame();
       setTimeout(() => {
         sendGame();
-      }, 10 * 1000);
+      }, 1000 * 60);
     }
   }
 
