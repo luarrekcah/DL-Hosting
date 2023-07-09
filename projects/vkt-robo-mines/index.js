@@ -60,7 +60,7 @@ function sendGame() {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 10 MINUTOS\n🎯 PLATAFORMA: ${config.url}`;
+  mensagem += `\n🎰 MÁXIMO 2 TENTATIVAS\n⏰ VALIDADE: 10 MINUTOS\n🎯 PLATAFORMA: ${config.url}\n\n✅ Green`;
 
   bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
