@@ -54,7 +54,7 @@ function sendGame() {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `PLAY RESPONSIBLY‼️\n\n🎯 PLATAFORM: ${config.url}`;
+  mensagem += `PLAY RESPONSIBLY‼️\n\n🎯 PLATFORM: ${config.url}`;
 
   bot.sendMessage(config.channelId, mensagem, {
     disable_web_page_preview: true,
