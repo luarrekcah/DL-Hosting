@@ -59,16 +59,22 @@ function sendGame() {
   }
 
   let tempo = new Date();
-  let t = tempo.getHours();
-  let n = tempo.getMinutes() + 2;
+  let options = {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  let horaBrasilia = tempo.toLocaleString("pt-BR", options).split(" ")[1];
+  let [t, n] = horaBrasilia.split(":");
+  n = parseInt(n) + 2;
   if (60 <= n) {
-    t += 1;
+    t = parseInt(t) + 1;
     n -= 60;
   }
   t = t.toString().padStart(2, "0");
   n = n.toString().padStart(2, "0");
 
-  mensagem += `\n\naposte com 4 💣\nVálido até ${t + ":" + n} ⏰\n<a href="${
+  mensagem += `\n\naposte com ${totalMines} 💣\nVálido até ${t + ":" + n} ⏰\n<a href="${
     config.url
   }">➡️CADASTRE-SE </a>\n\n⚠️ROBÔ UNICAMENTE\nPROJETADO PARA FALHAS\nDA PLATAFORMA ACIMA⚠️`;
 
