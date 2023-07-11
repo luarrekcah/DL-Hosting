@@ -35,11 +35,9 @@ function sendGame() {
     matriz.push([empty, empty, empty, empty, empty]);
   }
 
-  let minas = "MINAS💣: 3";
   let totalMines = 3;
 
   if (Math.random() <= 0.25) {
-    minas = "MINAS💣: 4";
     totalMines = 4;
   }
 
@@ -54,15 +52,25 @@ function sendGame() {
     }
   }
 
-  let mensagem = "✅SEQUÊNCIA GERADA PELO ROBÔ\n\n";
+  let mensagem = "SINAL GERADO‼️\n🔁tentativas: 2\n\n";
 
   for (let i = 0; i < 5; i++) {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  mensagem += `\n\n${minas}\nTENTATIVAS🎯: 4\nVALIDADE⏰: 2 MIN\nPLATAFORMA🎰: ${config.url}\n\n\n⚠️NOSSO ROBÔ SÓ É PROJETADO PARA FALHAS DA PLATAFORMA ACIMA⚠️`;
+  const tempo = new Date(),
+    t = tempo.getHours(),
+    n = tempo.getMinutes() + 2;
+  60 <= n && ((t += 1), (n -= 60)),
+    (t = t.toString().padStart(2, "0")),
+    (n = n.toString().padStart(2, "0"));
+
+  mensagem += `\n\naposte com 4 💣\nVálido até ${t + ":" + n} ⏰\n<a href="${
+    config.url
+  }">➡️CADASTRE-SE </a>\n\n⚠️ROBÔ UNICAMENTE\nPROJETADO PARA FALHAS\nDA PLATAFORMA ACIMA⚠️`;
 
   bot.sendMessage(config.channelId, mensagem, {
+    parse_mode: "HTML",
     disable_web_page_preview: true,
   });
 
@@ -102,11 +110,11 @@ function verifyTime() {
     const currentTime = Date.now();
     const timeDiff = currentTime - db.sendTimestamp;
 
-    if (timeDiff >= 2 * 60 * 1000) {
-      sendWarnGame();
-      setTimeout(() => {
-        sendGame();
-      }, 1000 * 60);
+    if (timeDiff >= 3 * 60 * 1000) {
+      //sendWarnGame();
+      //  setTimeout(() => {
+      sendGame();
+      //}, 1000 * 60);
     }
   }
 
