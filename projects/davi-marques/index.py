@@ -7,12 +7,18 @@ import datetime
 from datetime import timedelta
 from flask import Flask
 from PIL import Image, ImageDraw
+import os
 
 TOKEN = '5996153836:AAEvoQWBET71pokmS5Rn7OidxzwszkauiTY'
 GROUP_CHAT_ID = "-1001928917318"
 MESSAGE_INTERVAL = 360
 WARNING_TIME = 60
 link_url = 'https://betbr.net/c-5n9rprPq?lang=pt'
+
+# Get the absolute paths for the image files
+script_dir = os.path.dirname(os.path.abspath(__file__))
+image2_path = os.path.join(script_dir, 'imagem2.png')
+diamond_path = os.path.join(script_dir, 'diamond.png')
 
 bot = telebot.TeleBot(TOKEN)
 timer_enabled = False
@@ -65,7 +71,7 @@ def send_board():
         valid_until = get_valid_until()
 
         # Criar uma nova imagem com o mesmo tamanho das células
-        image2 = Image.open("imagem2.png")
+        image2 = Image.open(image2_path)
         image2 = image2.resize((64, 64))
 
         # Criação do tabuleiro como imagem
@@ -117,7 +123,7 @@ def create_board_image(board, image2):
             x1 = x0 + cell_size
             y1 = y0 + cell_size
             if board[row][col] == "💎":
-                diamond_image = Image.open("diamond.png")
+                diamond_image = Image.open(diamond_path)
                 diamond_image = diamond_image.resize((cell_size, cell_size))
                 image.paste(diamond_image, (x0, y0))
             else:
