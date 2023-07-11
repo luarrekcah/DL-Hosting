@@ -26,10 +26,13 @@ function runScriptsInProjectsFolder(folderPath) {
           require.resolve(filePath);
         } catch (err) {
           if (err.code === 'MODULE_NOT_FOUND') {
-             if (extension === '.py') {
+            if (extension === '.py') {
               const projectFolder = path.dirname(filePath);
               const requirementsPath = path.join(projectFolder, 'requirements.txt');
-              installPythonPackages(requirementsPath);
+              installPythonPackages(requirementsPath, () => {
+                // Após a instalação, tenta iniciar o arquivo novamente
+                runScript(filePath);
+              });
             }
           } else {
             console.error(`Erro ao verificar o módulo ${filePath}: ${err}`);
@@ -49,28 +52,14 @@ function runScriptsInProjectsFolder(folderPath) {
             }
           });
         } else if (extension === '.py') {
-          const pythonProcess = exec(`python ${filePath}`, (err, stdout, stderr) => {
-            if (err) {
-              console.error(`Erro ao executar o script ${filePath}: ${err}`);
-            } else {
-              console.log(`Script ${filePath} executado com sucesso`);
-            }
-          });
-
-          pythonProcess.stdout.on('data', data => {
-            console.log(data);
-          });
-
-          pythonProcess.stderr.on('data', data => {
-            console.error(data);
-          });
+          runScript(filePath);
         }
       }
     });
   });
 }
 
-function installPythonPackages(requirementsPath) {
+function installPythonPackages(requirementsPath, callback) {
   console.log(`Instalando pacotes Python a partir de ${requirementsPath}`);
 
   const installProcess = exec(`pip install -r ${requirementsPath}`);
@@ -86,9 +75,29 @@ function installPythonPackages(requirementsPath) {
   installProcess.on('exit', code => {
     if (code === 0) {
       console.log('Pacotes Python instalados com sucesso');
+      // Chama o callback após a instalação
+      callback();
     } else {
       console.error('Erro ao instalar pacotes Python');
     }
+  });
+}
+
+function runScript(filePath) {
+  const pythonProcess = exec(`python ${filePath}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(`Erro ao executar o script ${filePath}: ${err}`);
+    } else {
+      console.log(`Script ${filePath} executado com sucesso`);
+    }
+  });
+
+  pythonProcess.stdout.on('data', data => {
+    console.log(data);
+  });
+
+  pythonProcess.stderr.on('data', data => {
+    console.error(data);
   });
 }
 
