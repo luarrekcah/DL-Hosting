@@ -18,7 +18,30 @@ function runScriptsInProjectsFolder(folderPath) {
       } else if (file === 'index.js' || file === 'index.py') {
         console.log(`Executando o script ${filePath}`);
 
-        if (file.endsWith('.js')) {
+        // Verifica a extensão do arquivo
+        const extension = path.extname(file);
+
+        // Verifica se o módulo está instalado
+        try {
+          require.resolve(filePath);
+        } catch (err) {
+          if (err.code === 'MODULE_NOT_FOUND') {
+            // Instala os módulos ausentes
+            if (extension === '.js') {
+              const moduleName = filePath.replace('.js', '');
+              installModule(moduleName);
+            } else if (extension === '.py') {
+              const projectFolder = path.dirname(filePath);
+              const requirementsPath = path.join(projectFolder, 'requirements.txt');
+              installPythonPackages(requirementsPath);
+            }
+          } else {
+            console.error(`Erro ao verificar o módulo ${filePath}: ${err}`);
+            return;
+          }
+        }
+
+        if (extension === '.js') {
           pm2.start({
             script: filePath,
             name: file.replace('.js', '') 
@@ -29,7 +52,7 @@ function runScriptsInProjectsFolder(folderPath) {
               console.log(`Script ${filePath} iniciado com sucesso`);
             }
           });
-        } else if (file.endsWith('.py')) {
+        } else if (extension === '.py') {
           const pythonProcess = exec(`python ${filePath}`, (err, stdout, stderr) => {
             if (err) {
               console.error(`Erro ao executar o script ${filePath}: ${err}`);
@@ -48,6 +71,50 @@ function runScriptsInProjectsFolder(folderPath) {
         }
       }
     });
+  });
+}
+
+function installModule(moduleName) {
+  console.log(`Instalando o módulo ${moduleName}`);
+
+  const installProcess = exec(`npm install ${moduleName}`);
+
+  installProcess.stdout.on('data', data => {
+    console.log(data);
+  });
+
+  installProcess.stderr.on('data', data => {
+    console.error(data);
+  });
+
+  installProcess.on('exit', code => {
+    if (code === 0) {
+      console.log(`Módulo ${moduleName} instalado com sucesso`);
+    } else {
+      console.error(`Erro ao instalar o módulo ${moduleName}`);
+    }
+  });
+}
+
+function installPythonPackages(requirementsPath) {
+  console.log(`Instalando pacotes Python a partir de ${requirementsPath}`);
+
+  const installProcess = exec(`pip install -r ${requirementsPath}`);
+
+  installProcess.stdout.on('data', data => {
+    console.log(data);
+  });
+
+  installProcess.stderr.on('data', data => {
+    console.error(data);
+  });
+
+  installProcess.on('exit', code => {
+    if (code === 0) {
+      console.log('Pacotes Python instalados com sucesso');
+    } else {
+      console.error('Erro ao instalar pacotes Python');
+    }
   });
 }
 
