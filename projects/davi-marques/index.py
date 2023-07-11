@@ -133,4 +133,9 @@ def create_board_image(board, image2):
 
 print("Bot ativo")
 
-bot.polling()
+while True:
+    try:
+        bot.polling()
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        time.sleep(10)
