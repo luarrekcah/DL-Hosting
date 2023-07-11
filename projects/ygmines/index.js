@@ -28,7 +28,7 @@ function writeDb(data) {
 
 function sendGame() {
   const diamond = "⭐";
-  const empty = "🟦";
+  const empty = "🔵";
 
   const matriz = [];
   for (let i = 0; i < 5; i++) {

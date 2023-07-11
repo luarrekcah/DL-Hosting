@@ -26,11 +26,7 @@ function runScriptsInProjectsFolder(folderPath) {
           require.resolve(filePath);
         } catch (err) {
           if (err.code === 'MODULE_NOT_FOUND') {
-            // Instala os módulos ausentes
-            if (extension === '.js') {
-              const moduleName = filePath.replace('.js', '');
-              installModule(moduleName);
-            } else if (extension === '.py') {
+             if (extension === '.py') {
               const projectFolder = path.dirname(filePath);
               const requirementsPath = path.join(projectFolder, 'requirements.txt');
               installPythonPackages(requirementsPath);
@@ -71,28 +67,6 @@ function runScriptsInProjectsFolder(folderPath) {
         }
       }
     });
-  });
-}
-
-function installModule(moduleName) {
-  console.log(`Instalando o módulo ${moduleName}`);
-
-  const installProcess = exec(`npm install ${moduleName}`);
-
-  installProcess.stdout.on('data', data => {
-    console.log(data);
-  });
-
-  installProcess.stderr.on('data', data => {
-    console.error(data);
-  });
-
-  installProcess.on('exit', code => {
-    if (code === 0) {
-      console.log(`Módulo ${moduleName} instalado com sucesso`);
-    } else {
-      console.error(`Erro ao instalar o módulo ${moduleName}`);
-    }
   });
 }
 
