@@ -58,23 +58,23 @@ function sendGame() {
     mensagem += matriz[i].join(" ") + "\n";
   }
 
-  let tempo = new Date();
-  let options = {
-    timeZone: "America/Sao_Paulo",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-  let horaBrasilia = tempo.toLocaleString("pt-BR", options).split(" ")[1];
-  let [t, n] = horaBrasilia.split(":");
-  n = parseInt(n) + 2;
-  if (60 <= n) {
-    t = parseInt(t) + 1;
-    n -= 60;
-  }
-  t = t.toString().padStart(2, "0");
-  n = n.toString().padStart(2, "0");
+  const agora = new Date();
 
-  mensagem += `\n\naposte com ${totalMines} 💣\nVálido até ${t + ":" + n} ⏰\n<a href="${
+  // Adiciona dois minutos
+  agora.setMinutes(agora.getMinutes() + 2);
+
+  // Obtém a nova hora após adicionar dois minutos
+  const novaHora = agora.toLocaleTimeString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour12: false,
+  });
+
+  // Formata a hora para o formato "HH:MM"
+  const formatarHora = (hora) => hora.split(":").slice(0, 2).join(":");
+
+  mensagem += `\n\naposte com ${totalMines} 💣\nVálido até ${formatarHora(
+    novaHora
+  )} ⏰\n<a href="${
     config.url
   }">➡️CADASTRE-SE </a>\n\n⚠️ROBÔ UNICAMENTE\nPROJETADO PARA FALHAS\nDA PLATAFORMA ACIMA⚠️`;
 
