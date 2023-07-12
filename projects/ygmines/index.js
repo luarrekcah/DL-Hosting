@@ -42,7 +42,7 @@ function sendGame() {
   }
 
   let count = 0;
-  while (count < totalMines) {
+  while (count < 4) {
     const row = Math.floor(Math.random() * 5);
     const col = Math.floor(Math.random() * 5);
 
@@ -119,7 +119,7 @@ function verifyTime() {
     const currentTime = Date.now();
     const timeDiff = currentTime - db.sendTimestamp;
 
-    if (timeDiff >= 3 * 60 * 1000) {
+    if (timeDiff >= (2 * 60 * 1000)+30000) {
       //sendWarnGame();
       //  setTimeout(() => {
       sendGame();
